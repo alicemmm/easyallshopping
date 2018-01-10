@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initView() {
+
         mainLinearLayout = findViewById(R.id.main_layout_ll);
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(mainLinearLayout, new LinearLayout.LayoutParams(
