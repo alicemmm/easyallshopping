@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -101,8 +102,9 @@ public class MainActivity extends AppCompatActivity
 
     private void initView() {
         mainLinearLayout = findViewById(R.id.main_layout_ll);
-        agentWeb = AgentWeb.with(this)//
-                .setAgentWebParent(mainLinearLayout, new LinearLayout.LayoutParams(-1, -1))//
+        agentWeb = AgentWeb.with(this)
+                .setAgentWebParent(mainLinearLayout, new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()//
                 .defaultProgressBarColor()
                 .setReceivedTitleCallback(mCallback)
@@ -110,9 +112,9 @@ public class MainActivity extends AppCompatActivity
                 .setWebViewClient(mWebViewClient)
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setSecurityType(AgentWeb.SecurityType.strict)
-                .setOpenOtherAppWays(DefaultWebClient.OpenOtherAppWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
-                .interceptUnkownScheme() //拦截找不到相关页面的Scheme
-                .createAgentWeb()//
+                .setOpenOtherAppWays(DefaultWebClient.OpenOtherAppWays.ASK)
+                .interceptUnkownScheme()
+                .createAgentWeb()
                 .ready()
                 .go(getUrl());
     }
