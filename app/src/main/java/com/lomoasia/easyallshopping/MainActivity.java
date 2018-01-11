@@ -1,31 +1,26 @@
 package com.lomoasia.easyallshopping;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.just.agentweb.AgentWeb;
-import com.just.agentweb.ChromeClientCallbackManager;
-import com.just.agentweb.DefaultWebClient;
+import com.lomoasia.easyallshopping.common.FragmentKeyDown;
+import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,8 +29,10 @@ public class MainActivity extends AppCompatActivity
     private Context context;
 
     private LinearLayout mainLinearLayout;
-    private AgentWeb agentWeb;
     private TextView titleTextView;
+
+    private FragmentManager fragmentManager;
+    private AgentWebFragment agentWebFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +84,8 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerStateChanged(int newState) {
 
             }
-
         });
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -98,62 +95,47 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initView();
+
+        openFragment();
     }
 
     private void initView() {
-
         mainLinearLayout = findViewById(R.id.main_layout_ll);
-        agentWeb = AgentWeb.with(this)
-                .setAgentWebParent(mainLinearLayout, new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator()//
-                .defaultProgressBarColor()
-                .setReceivedTitleCallback(mCallback)
-                .setWebChromeClient(mWebChromeClient)
-                .setWebViewClient(mWebViewClient)
-                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
-                .setSecurityType(AgentWeb.SecurityType.strict)
-                .setOpenOtherAppWays(DefaultWebClient.OpenOtherAppWays.ASK)
-                .interceptUnkownScheme()
-                .createAgentWeb()
-                .ready()
-                .go(getUrl());
+        fragmentManager = this.getSupportFragmentManager();
     }
 
-
-    private WebViewClient mWebViewClient = new WebViewClient() {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return super.shouldOverrideUrlLoading(view, request);
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            //do you  work
-            Log.i("Info", "BaseWebActivity onPageStarted");
-        }
-    };
-    private WebChromeClient mWebChromeClient = new WebChromeClient() {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            //do you work
-//            Log.i("Info","progress:"+newProgress);
-        }
-    };
-
-    public String getUrl() {
-        return "https://m.jd.com/";
+    public void setToolbarTitle(String title) {
+        titleTextView.setText(title);
     }
 
-    private ChromeClientCallbackManager.ReceivedTitleCallback mCallback = new ChromeClientCallbackManager.ReceivedTitleCallback() {
-        @Override
-        public void onReceivedTitle(WebView view, String title) {
-            if (titleTextView != null) {
-                titleTextView.setText(title);
+    private void openFragment() {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Bundle bundle = null;
+        ft.replace(R.id.main_layout_ll, agentWebFragment = AgentWebFragment.getInstance(bundle = new Bundle()), AgentWebFragment.class.getName());
+        bundle.putString(AgentWebFragment.URL_KEY, "https://m.jd.com/");
+        ft.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        agentWebFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        AgentWebFragment agentWebFragment = this.agentWebFragment;
+        if (agentWebFragment != null) {
+            FragmentKeyDown fragmentKeyDown = agentWebFragment;
+            if (fragmentKeyDown.onFragmentKeyDown(keyCode, event)) {
+                return true;
+            } else {
+                return super.onKeyDown(keyCode, event);
             }
         }
-    };
 
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public void onBackPressed() {
@@ -163,39 +145,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onPause() {
-        if (agentWeb != null) {
-            agentWeb.getWebLifeCycle().onPause();
-        }
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onResume() {
-        if (agentWeb != null) {
-            agentWeb.getWebLifeCycle().onResume();
-        }
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (agentWeb != null) {
-            agentWeb.getWebLifeCycle().onDestroy();
-        }
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (agentWeb != null && agentWeb.handleKeyEvent(keyCode, event)) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
