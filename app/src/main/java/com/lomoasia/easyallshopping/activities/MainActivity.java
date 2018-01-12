@@ -1,4 +1,4 @@
-package com.lomoasia.easyallshopping;
+package com.lomoasia.easyallshopping.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.FragmentKeyDown;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 
@@ -110,9 +111,7 @@ public class MainActivity extends AppCompatActivity
 
     private void openFragment() {
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        Bundle bundle = null;
-        ft.replace(R.id.main_layout_ll, agentWebFragment = AgentWebFragment.getInstance(bundle = new Bundle()), AgentWebFragment.class.getName());
-        bundle.putString(AgentWebFragment.URL_KEY, "https://m.jd.com/");
+        ft.replace(R.id.main_layout_ll, agentWebFragment = AgentWebFragment.getInstance(), AgentWebFragment.class.getName());
         ft.commit();
     }
 

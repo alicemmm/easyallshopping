@@ -27,7 +27,7 @@ import com.just.agentweb.ChromeClientCallbackManager;
 import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.PermissionInterceptor;
 import com.just.agentweb.WebDefaultSettingsManager;
-import com.lomoasia.easyallshopping.MainActivity;
+import com.lomoasia.easyallshopping.activities.MainActivity;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.UIController;
@@ -38,7 +38,7 @@ import java.util.HashMap;
  * Created by asia on 2018/1/11.
  */
 
-public class AgentWebFragment extends Fragment implements FragmentKeyDown {
+public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
     private static final String TAG = AgentWebFragment.class.getSimpleName();
 
     public static final String URL_KEY = "url_key";
@@ -48,14 +48,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     private String url;
 
-    public static AgentWebFragment getInstance(Bundle bundle) {
-        AgentWebFragment agentWebFragment = new AgentWebFragment();
-        if (bundle != null) {
-            agentWebFragment.setArguments(bundle);
-        }
-
-        return agentWebFragment;
-
+    public static AgentWebFragment getInstance() {
+        return new AgentWebFragment();
     }
 
     public AgentWebFragment() {
@@ -65,10 +59,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            url = bundle.getString(URL_KEY);
-        }
     }
 
     @Nullable
@@ -80,51 +70,53 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        agentWeb = AgentWeb.with(this)//
-                .setAgentWebParent((LinearLayout) view, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))//传入AgentWeb的父控件。
-                .setIndicatorColorWithHeight(-1, 3)//设置进度条颜色与高度，-1为默认值，高度为2，单位为dp。
-                .setAgentWebWebSettings(getSettings())//设置 AgentWebSettings。
-                .setWebViewClient(webViewClient)//WebViewClient ， 与 WebView 使用一致 ，但是请勿获取WebView调用setWebViewClient(xx)方法了,会覆盖AgentWeb DefaultWebClient,同时相应的中间件也会失效。
-                .setWebChromeClient(webChromeClient) //WebChromeClient
-                .setPermissionInterceptor(permissionInterceptor) //权限拦截 2.0.0 加入。
-                .setReceivedTitleCallback(callback)//标题回调。
-                .setSecurityType(AgentWeb.SecurityType.strict) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
-                .setAgentWebUIController(new UIController(getActivity())) //自定义UI  AgentWeb3.0.0 加入。
-                .setMainFrameErrorView(R.layout.agentweb_error_page, -1) //参数1是错误显示的布局，参数2点击刷新控件ID -1表示点击整个布局都刷新， AgentWeb 3.0.0 加入。
-                .openParallelDownload()//打开并行下载 , 默认串行下载。
-                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他页面时，弹窗质询用户前往其他应用 AgentWeb 3.0.0 加入。
-                .interceptUnkownScheme() //拦截找不到相关页面的Scheme AgentWeb 3.0.0 加入。
-                .createAgentWeb()//创建AgentWeb。
-                .ready()//设置 WebSettings。
-                .go(getUrl()); //WebView载入该url地址的页面并显示。
+        agentWeb = AgentWeb.with(this)
+                .setAgentWebParent((LinearLayout) view,
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .setIndicatorColorWithHeight(-1, 3)
+                .setAgentWebWebSettings(getSettings())
+                .setWebViewClient(webViewClient)
+                .setWebChromeClient(webChromeClient)
+                .setPermissionInterceptor(permissionInterceptor)
+                .setReceivedTitleCallback(callback)
+                .setSecurityType(AgentWeb.SecurityType.strict)
+                .setAgentWebUIController(new UIController(getActivity()))
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .openParallelDownload()
+                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
+                .interceptUnkownScheme()
+                .createAgentWeb()
+                .ready()
+                .go(getUrl());
 
-        //AgentWeb 没有把WebView的功能全面覆盖 ，所有某些设置 AgentWeb 没有提供 ， 请从WebView方面入手设置。
         agentWeb.getWebCreator().get().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
-        webView = agentWeb.getWebCreator().get(); // 获取WebView .
+        webView = agentWeb.getWebCreator().get();
+    }
 
+
+    @Override
+    public void onViewFirstAppear() {
+        super.onViewFirstAppear();
+        Log.e(TAG, "onViewFirstAppear: ");
+    }
+
+    @Override
+    public void onViewAppear() {
+        super.onViewAppear();
+        Log.e(TAG, "onViewAppear: ");
     }
 
     protected PermissionInterceptor permissionInterceptor = new PermissionInterceptor() {
-
-        //AgentWeb 在触发某些敏感的 Action 时候会回调该方法， 比如定位触发 。
-        //例如 https//:www.baidu.com 该 Url 需要定位权限， 返回false ，如果版本大于等于23 ， agentWeb 会动态申请权限 ，true 该Url对应页面请求定位失败。
-        //该方法是每次都会优先触发的 ， 开发者可以做一些敏感权限拦截 。
         @Override
         public boolean intercept(String url, String[] permissions, String action) {
             return false;
         }
     };
 
-
     public AgentWebSettings getSettings() {
         return WebDefaultSettingsManager.getInstance();
     }
 
-    /**
-     * 页面空白，请检查scheme是否加上， scheme://host:port/path?query 。
-     *
-     * @return url
-     */
     public String getUrl() {
         String target = url;
 
@@ -185,16 +177,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
             Log.i(TAG, "url:" + url + " onPageStarted  target:" + getUrl());
             timer.put(url, System.currentTimeMillis());
 
         }
 
-        //2972 1483|3005 1536|2868 1785| 2889 1523| 2912 1537|2941 1628|2925 1561|2864 1669|2953 1508|2932 1693|
-        //2926.1 1592.3
-
-        //2731 1749|1234 1808|2203 1230|1648 1752|
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -209,7 +196,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         /*错误页回调该方法 ， 如果重写了该方法， 上面传入了布局将不会显示 ， 交由开发者实现，注意参数对齐。*/
         public void onMainFrameError(AgentWebUIController agentWebUIController, WebView view, int errorCode, String description, String failingUrl) {
-
             Log.i(TAG, "AgentWebFragment onMainFrameError");
             agentWebUIController.onMainFrameError(view, errorCode, description, failingUrl);
 
@@ -237,13 +223,10 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         }
     }
 
-    //清除 WebView 缓存
     private void toCleanWebCache() {
-
-        if (this.agentWeb != null) {
-
+        if (agentWeb != null) {
             //清理所有跟WebView相关的缓存 ，数据库， 历史记录 等。
-            this.agentWeb.clearWebCache();
+            agentWeb.clearWebCache();
             Toast.makeText(getActivity(), "已清理缓存", Toast.LENGTH_SHORT).show();
             //清空所有 AgentWeb 硬盘缓存，包括 WebView 的缓存 , AgentWeb 下载的图片 ，视频 ，apk 等文件。
 //            AgentWebConfig.clearDiskCache(this.getContext());
@@ -254,25 +237,32 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     @Override
     public void onResume() {
         if (agentWeb != null) {
-            agentWeb.getWebLifeCycle().onResume();//恢复
+            agentWeb.getWebLifeCycle().onResume();
         }
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        agentWeb.getWebLifeCycle().onPause(); //暂停应用内所有WebView ， 调用mWebView.resumeTimers(); 恢复。
+        if (agentWeb != null) {
+            agentWeb.getWebLifeCycle().onPause();
+        }
         super.onPause();
     }
 
     @Override
     public boolean onFragmentKeyDown(int keyCode, KeyEvent event) {
-        return agentWeb.handleKeyEvent(keyCode, event);
+        if (agentWeb != null) {
+            return agentWeb.handleKeyEvent(keyCode, event);
+        }
+        return false;
     }
 
     @Override
     public void onDestroyView() {
-        agentWeb.getWebLifeCycle().onDestroy();
+        if (agentWeb != null) {
+            agentWeb.getWebLifeCycle().onDestroy();
+        }
         super.onDestroyView();
     }
 }
