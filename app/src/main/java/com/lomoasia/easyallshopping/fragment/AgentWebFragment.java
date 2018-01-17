@@ -30,7 +30,9 @@ import com.just.agentweb.WebDefaultSettingsManager;
 import com.lomoasia.easyallshopping.activities.MainActivity;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.FragmentKeyDown;
+import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.UIController;
+import com.lomoasia.easyallshopping.common.WebSiteBean;
 
 import java.util.HashMap;
 
@@ -45,8 +47,6 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
 
     protected AgentWeb agentWeb;
     private WebView webView;
-
-    private String url;
 
     public static AgentWebFragment getInstance() {
         return new AgentWebFragment();
@@ -106,6 +106,10 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         Log.e(TAG, "onViewAppear: ");
     }
 
+    public AgentWeb getAgentWeb() {
+        return agentWeb;
+    }
+
     protected PermissionInterceptor permissionInterceptor = new PermissionInterceptor() {
         @Override
         public boolean intercept(String url, String[] permissions, String action) {
@@ -113,15 +117,14 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         }
     };
 
-    public AgentWebSettings getSettings() {
+    private AgentWebSettings getSettings() {
         return WebDefaultSettingsManager.getInstance();
     }
 
-    public String getUrl() {
-        String target = url;
-
+    private String getUrl() {
+        String target = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
         if (TextUtils.isEmpty(target)) {
-            target = "https://m.jd.com/";
+            target = WebSiteBean.M_TAO_BAO;
         }
         return target;
     }
@@ -231,7 +234,6 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
             //清空所有 AgentWeb 硬盘缓存，包括 WebView 的缓存 , AgentWeb 下载的图片 ，视频 ，apk 等文件。
 //            AgentWebConfig.clearDiskCache(this.getContext());
         }
-
     }
 
     @Override

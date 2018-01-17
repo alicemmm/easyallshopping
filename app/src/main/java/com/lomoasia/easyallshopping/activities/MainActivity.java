@@ -12,15 +12,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.FragmentKeyDown;
+import com.lomoasia.easyallshopping.common.SPUtils;
+import com.lomoasia.easyallshopping.common.WebSiteBean;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity
 
     private FragmentManager fragmentManager;
     private AgentWebFragment agentWebFragment;
+
+    private long lastBackTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,28 +104,34 @@ public class MainActivity extends AppCompatActivity
 
         initView();
 
-        openFragment();
-    }
-
-    private void initView() {
-        mainLinearLayout = findViewById(R.id.main_layout_ll);
-        fragmentManager = this.getSupportFragmentManager();
+        initData();
     }
 
     public void setToolbarTitle(String title) {
         titleTextView.setText(title);
     }
 
-    private void openFragment() {
+    private void initView() {
+        mainLinearLayout = findViewById(R.id.main_layout_ll);
+        fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.main_layout_ll, agentWebFragment = AgentWebFragment.getInstance(), AgentWebFragment.class.getName());
         ft.commit();
     }
 
+    private void initData() {
+        String defaultUrl = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, null);
+        if (TextUtils.isEmpty(defaultUrl)) {
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        agentWebFragment.onActivityResult(requestCode, resultCode, data);
+        if (agentWebFragment != null) {
+            agentWebFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -142,26 +155,51 @@ public class MainActivity extends AppCompatActivity
         if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            doubleClickExit();
+        }
+    }
+
+    private void doubleClickExit() {
+        long currentBackTime = System.currentTimeMillis();
+        if (currentBackTime - lastBackTime > 2 * 1000) {
+            lastBackTime = currentBackTime;
+            Toast.makeText(this, R.string.press_back_key_quit, Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == R.id.action_web_page_main) {
+            AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+            if (agentWeb != null) {
+                String url = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
+                agentWeb.getLoader().loadUrl(url);
+            }
+            return true;
+        } else if (id == R.id.menu_refresh) {
+            AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+            if (agentWeb != null) {
+                agentWeb.getLoader().reload();
+            }
+            return true;
+        } else if (id == R.id.menu_open_with_browser) {
+            return true;
+        } else if (id == R.id.menu_setting) {
+            return true;
+        } else if (id == R.id.menu_share) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.menu_exit) {
+            finish();
             return true;
         }
 
@@ -176,8 +214,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
         } else if (id == R.id.nav_gallery) {
-
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_JING_DONG);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

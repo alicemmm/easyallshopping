@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_web_page_share"
+        android:id="@+id/action_web_page_main"
         android:icon="@drawable/ic_home_white_24dp"
-        android:title="主页"
+        android:title="@string/menu_main"
         app:showAsAction="ifRoom" />
 
     <item
@@ -16,12 +16,25 @@
 
         <menu>
             <item
-                android:id="@+id/open_with_browser"
-                android:title="aaa" />
+                android:id="@+id/menu_refresh"
+                android:title="@string/menu_refresh" />
 
             <item
-                android:id="@+id/refresh"
-                android:title="bbb" />
+                android:id="@+id/menu_open_with_browser"
+                android:title="@string/menu_open_browser" />
+
+            <item
+                android:id="@+id/menu_setting"
+                android:title="@string/action_settings" />
+
+            <item
+                android:id="@+id/menu_share"
+                android:title="@string/menu_share" />
+
+            <item
+                android:id="@+id/menu_exit"
+                android:title="@string/menu_exit" />
+
         </menu>
 
 
