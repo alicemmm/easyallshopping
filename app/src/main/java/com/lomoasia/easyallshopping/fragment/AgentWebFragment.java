@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -32,7 +31,7 @@ import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.UIController;
-import com.lomoasia.easyallshopping.common.WebSiteBean;
+import com.lomoasia.easyallshopping.common.WebSite;
 
 import java.util.HashMap;
 
@@ -42,8 +41,6 @@ import java.util.HashMap;
 
 public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
     private static final String TAG = AgentWebFragment.class.getSimpleName();
-
-    public static final String URL_KEY = "url_key";
 
     protected AgentWeb agentWeb;
     private WebView webView;
@@ -122,9 +119,9 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
     }
 
     private String getUrl() {
-        String target = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
+        String target = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
         if (TextUtils.isEmpty(target)) {
-            target = WebSiteBean.M_TAO_BAO;
+            target = WebSite.M_TAO_BAO;
         }
         return target;
     }

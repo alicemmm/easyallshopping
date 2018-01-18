@@ -1,5 +1,6 @@
 package com.lomoasia.easyallshopping.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +26,10 @@ import android.widget.Toast;
 import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.FragmentKeyDown;
+import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.SPUtils;
-import com.lomoasia.easyallshopping.common.WebSiteBean;
+import com.lomoasia.easyallshopping.common.TaoKeyTools;
+import com.lomoasia.easyallshopping.common.WebSite;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -107,6 +111,12 @@ public class MainActivity extends AppCompatActivity
         initData();
     }
 
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+    }
+
     public void setToolbarTitle(String title) {
         titleTextView.setText(title);
     }
@@ -122,8 +132,13 @@ public class MainActivity extends AppCompatActivity
     private void initData() {
         String defaultUrl = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, null);
         if (TextUtils.isEmpty(defaultUrl)) {
-            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
         }
+
+        String title = getString(R.string.test);
+        TaoKeyTools.getWebSiteBeanFromTaoKey(title);
+
+
     }
 
     @Override
@@ -136,13 +151,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        AgentWebFragment agentWebFragment = this.agentWebFragment;
-        if (agentWebFragment != null) {
-            FragmentKeyDown fragmentKeyDown = agentWebFragment;
-            if (fragmentKeyDown.onFragmentKeyDown(keyCode, event)) {
-                return true;
-            } else {
-                return super.onKeyDown(keyCode, event);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            AgentWebFragment agentWebFragment = this.agentWebFragment;
+            if (agentWebFragment != null) {
+                FragmentKeyDown fragmentKeyDown = agentWebFragment;
+                if (fragmentKeyDown.onFragmentKeyDown(keyCode, event)) {
+                    return true;
+                } else {
+                    return super.onKeyDown(keyCode, event);
+                }
             }
         }
 
@@ -151,12 +171,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            doubleClickExit();
-        }
+        doubleClickExit();
     }
 
     private void doubleClickExit() {
@@ -181,7 +196,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_web_page_main) {
             AgentWeb agentWeb = agentWebFragment.getAgentWeb();
             if (agentWeb != null) {
-                String url = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
+                String url = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
                 agentWeb.getLoader().loadUrl(url);
             }
             return true;
@@ -191,9 +206,8 @@ public class MainActivity extends AppCompatActivity
                 agentWeb.getLoader().reload();
             }
             return true;
-        } else if (id == R.id.menu_open_with_browser) {
-            return true;
         } else if (id == R.id.menu_setting) {
+            Launcher.startSettingActivity(context);
             return true;
         } else if (id == R.id.menu_share) {
 
@@ -214,9 +228,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_TAO_BAO);
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
         } else if (id == R.id.nav_gallery) {
-            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSiteBean.M_JING_DONG);
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_JING_DONG);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

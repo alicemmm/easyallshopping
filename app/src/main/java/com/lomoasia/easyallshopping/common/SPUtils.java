@@ -3,8 +3,6 @@ package com.lomoasia.easyallshopping.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -36,7 +34,7 @@ public class SPUtils {
             editor.putString(key, object.toString());
         }
 
-        SharedPreferencesCompat.apply(editor);
+        editor.apply();
     }
 
     public static Object get(Context context, String key, Object defaultObject) {
@@ -63,7 +61,7 @@ public class SPUtils {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
-        SharedPreferencesCompat.apply(editor);
+        editor.apply();
     }
 
     public static void clear(Context context) {
@@ -71,7 +69,7 @@ public class SPUtils {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
-        SharedPreferencesCompat.apply(editor);
+        editor.apply();
     }
 
     public static boolean contains(Context context, String key) {
@@ -84,32 +82,5 @@ public class SPUtils {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sp.getAll();
-    }
-
-    private static class SharedPreferencesCompat {
-        private static final Method sApplyMethod = findApplyMethod();
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        private static Method findApplyMethod() {
-            try {
-                Class clz = SharedPreferences.Editor.class;
-                return clz.getMethod("apply");
-            } catch (NoSuchMethodException e) {
-            }
-
-            return null;
-        }
-
-        public static void apply(SharedPreferences.Editor editor) {
-            try {
-                if (sApplyMethod != null) {
-                    sApplyMethod.invoke(editor);
-                    return;
-                }
-            } catch (IllegalArgumentException e) {
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            }
-            editor.commit();
-        }
     }
 }

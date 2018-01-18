@@ -20,10 +20,6 @@
                 android:title="@string/menu_refresh" />
 
             <item
-                android:id="@+id/menu_open_with_browser"
-                android:title="@string/menu_open_browser" />
-
-            <item
                 android:id="@+id/menu_setting"
                 android:title="@string/action_settings" />
 
