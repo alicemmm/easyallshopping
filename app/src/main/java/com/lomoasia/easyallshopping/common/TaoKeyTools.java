@@ -1,7 +1,7 @@
 package com.lomoasia.easyallshopping.common;
 
+import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 
@@ -19,7 +19,7 @@ public class TaoKeyTools {
 
     private static final String URL_PATTERN = "(http://.*)\\s+";
 
-    public static WebSiteBean getWebSiteBeanFromTaoKey(String taoKey) {
+    private static WebSiteBean getWebSiteBeanFromTaoKey(String taoKey) {
         if (TextUtils.isEmpty(taoKey)) {
             return null;
         }
@@ -52,5 +52,36 @@ public class TaoKeyTools {
         }
 
         return webSiteBean;
+    }
+
+    private static boolean isTaoKey(WebSiteBean webSiteBean) {
+        boolean isTaoKey = false;
+        if (webSiteBean != null) {
+            String title = webSiteBean.getTitle();
+            String url = webSiteBean.getUrl();
+            String key = webSiteBean.getTaoKey();
+            if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
+                isTaoKey = true;
+            }
+        }
+
+        return isTaoKey;
+    }
+
+    public static WebSiteBean getClipboard(Context context) {
+        WebSiteBean webSiteBean = null;
+        String clipText = ClipboardUtil.getInstance().getClipText(context);
+        if (!TextUtils.isEmpty(clipText)) {
+            webSiteBean = getWebSiteBeanFromTaoKey(clipText);
+            if (!isTaoKey(webSiteBean)) {
+                webSiteBean = null;
+            }
+        }
+
+        return webSiteBean;
+    }
+
+    public static void clearTaokey() {
+        ClipboardUtil.getInstance().copyText("", "");
     }
 }

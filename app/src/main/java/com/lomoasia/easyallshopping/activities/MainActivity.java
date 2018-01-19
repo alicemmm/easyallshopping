@@ -14,7 +14,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +29,7 @@ import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.TaoKeyTools;
 import com.lomoasia.easyallshopping.common.WebSite;
+import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -135,10 +135,10 @@ public class MainActivity extends AppCompatActivity
             SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
         }
 
-        String title = getString(R.string.test);
-        TaoKeyTools.getWebSiteBeanFromTaoKey(title);
-
-
+        WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
+        if (webSiteBean != null) {
+            TaoKeyTools.clearTaokey();
+        }
     }
 
     @Override

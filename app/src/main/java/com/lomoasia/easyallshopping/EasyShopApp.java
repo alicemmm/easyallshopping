@@ -3,6 +3,8 @@ package com.lomoasia.easyallshopping;
 import android.app.Application;
 import android.content.Context;
 
+import com.lomoasia.easyallshopping.common.ClipboardUtil;
+
 /**
  * Created by asia on 2018/1/12.
  */
@@ -18,6 +20,8 @@ public class EasyShopApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         application = this;
+
+        ClipboardUtil.init(this);
     }
 
     public static Context getContext() {
