@@ -1,4 +1,4 @@
-package com.lomoasia.easyallshopping.common;
+package com.lomoasia.easyallshopping.web;
 
 import android.app.Activity;
 import android.content.DialogInterface;

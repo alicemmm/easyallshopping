@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.lomoasia.easyallshopping.R;
+import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by asia on 2018/1/17.
@@ -22,4 +26,13 @@ public class CommonUtils {
             e.printStackTrace();
         }
     }
+
+    private List<WebSiteBean> getDefaultWebSite(Context context) {
+        List<WebSiteBean> webSiteBeanList = new ArrayList<>();
+
+
+
+        return webSiteBeanList;
+    }
+
 }

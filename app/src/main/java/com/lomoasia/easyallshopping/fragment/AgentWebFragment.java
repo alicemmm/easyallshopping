@@ -25,14 +25,13 @@ import com.just.agentweb.AgentWebUIController;
 import com.just.agentweb.ChromeClientCallbackManager;
 import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.PermissionInterceptor;
-import com.just.agentweb.WebDefaultSettingsManager;
-import com.lomoasia.easyallshopping.activities.MainActivity;
 import com.lomoasia.easyallshopping.R;
-import com.lomoasia.easyallshopping.common.FragmentKeyDown;
+import com.lomoasia.easyallshopping.activities.MainActivity;
+import com.lomoasia.easyallshopping.web.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.SPUtils;
-import com.lomoasia.easyallshopping.common.UIController;
-import com.lomoasia.easyallshopping.common.WebSite;
-import com.lomoasia.easyallshopping.event.SettingEvent;
+import com.lomoasia.easyallshopping.web.UIController;
+import com.lomoasia.easyallshopping.common.bean.WebSite;
+import com.lomoasia.easyallshopping.web.CustomSettings;
 
 import java.util.HashMap;
 
@@ -71,7 +70,7 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent((LinearLayout) view,
                         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .setIndicatorColorWithHeight(-1, 3)
+                .setIndicatorColorWithHeight(getResources().getColor(R.color.colorAccent), 2)
                 .setAgentWebWebSettings(getSettings())
                 .setWebViewClient(webViewClient)
                 .setWebChromeClient(webChromeClient)
@@ -89,6 +88,7 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
 
         agentWeb.getWebCreator().get().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         webView = agentWeb.getWebCreator().get();
+
     }
 
 
@@ -116,7 +116,7 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
     };
 
     private AgentWebSettings getSettings() {
-        return WebDefaultSettingsManager.getInstance();
+        return new CustomSettings();
     }
 
     private String getUrl() {
@@ -217,18 +217,17 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         }
     };
 
-    //这里用于测试错误页的显示
     private void loadErrorWebSite() {
         if (agentWeb != null) {
             agentWeb.getLoader().loadUrl("http://www.unkownwebsiteblog.me");
         }
     }
 
-    private void toCleanWebCache() {
+    public void toCleanWebCache() {
         if (agentWeb != null) {
             //清理所有跟WebView相关的缓存 ，数据库， 历史记录 等。
             agentWeb.clearWebCache();
-            Toast.makeText(getActivity(), "已清理缓存", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.clear_cache_success, Toast.LENGTH_SHORT).show();
             //清空所有 AgentWeb 硬盘缓存，包括 WebView 的缓存 , AgentWeb 下载的图片 ，视频 ，apk 等文件。
 //            AgentWebConfig.clearDiskCache(this.getContext());
         }
@@ -240,6 +239,9 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
             agentWeb.getWebLifeCycle().onResume();
         }
         super.onResume();
+
+
+
     }
 
     @Override

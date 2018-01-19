@@ -10,10 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,11 +28,11 @@ import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
-import com.lomoasia.easyallshopping.common.FragmentKeyDown;
+import com.lomoasia.easyallshopping.web.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.TaoKeyTools;
-import com.lomoasia.easyallshopping.common.WebSite;
+import com.lomoasia.easyallshopping.common.bean.WebSite;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.lomoasia.easyallshopping.event.SettingEvent;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 
         initView();
 
-        requestPermissions();
+//        requestPermissions();
 
         initData();
     }
@@ -252,20 +250,29 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_web_page_main) {
-            AgentWeb agentWeb = agentWebFragment.getAgentWeb();
-            if (agentWeb != null) {
-                String url = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
-                agentWeb.getLoader().loadUrl(url);
+            if (agentWebFragment != null) {
+                AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+                if (agentWeb != null) {
+                    String url = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
+                    agentWeb.getLoader().loadUrl(url);
+                }
             }
             return true;
         } else if (id == R.id.menu_refresh) {
-            AgentWeb agentWeb = agentWebFragment.getAgentWeb();
-            if (agentWeb != null) {
-                agentWeb.getLoader().reload();
+            if (agentWebFragment != null) {
+                AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+                if (agentWeb != null) {
+                    agentWeb.getLoader().reload();
+                }
             }
             return true;
         } else if (id == R.id.menu_setting) {
             Launcher.startSettingActivity(context);
+            return true;
+        } else if (id == R.id.menu_clear) {
+            if (agentWebFragment != null) {
+                agentWebFragment.toCleanWebCache();
+            }
             return true;
         } else if (id == R.id.menu_share) {
 
