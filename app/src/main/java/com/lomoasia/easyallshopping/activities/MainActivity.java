@@ -1,13 +1,19 @@
 package com.lomoasia.easyallshopping.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,6 +36,7 @@ import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.TaoKeyTools;
 import com.lomoasia.easyallshopping.common.WebSite;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
+import com.lomoasia.easyallshopping.event.SettingEvent;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -37,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Context context;
+
+    private SettingEvent.Receiver settingEventReceiver;
 
     private LinearLayout mainLinearLayout;
     private TextView titleTextView;
@@ -108,6 +117,8 @@ public class MainActivity extends AppCompatActivity
 
         initView();
 
+        requestPermissions();
+
         initData();
     }
 
@@ -129,15 +140,62 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
+    private void requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        0);
+                requestPermissions(
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        0);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (hasAllPermissionsGranted(grantResults)) {
+
+        }
+    }
+
+    private boolean hasAllPermissionsGranted(@NonNull int[] grantResults) {
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void initData() {
         String defaultUrl = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, null);
         if (TextUtils.isEmpty(defaultUrl)) {
             SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
         }
 
+        settingEventReceiver = new SettingEvent.Receiver(context, new SettingEvent.Listener() {
+            @Override
+            public void onSettingChanged(Context context, String key) {
+
+            }
+        });
+
+        settingEventReceiver.register();
+
         WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
         if (webSiteBean != null) {
             TaoKeyTools.clearTaokey();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (settingEventReceiver != null) {
+            settingEventReceiver.unregister();
         }
     }
 

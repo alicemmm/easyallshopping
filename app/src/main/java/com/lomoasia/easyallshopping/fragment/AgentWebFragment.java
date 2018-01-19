@@ -32,6 +32,7 @@ import com.lomoasia.easyallshopping.common.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.UIController;
 import com.lomoasia.easyallshopping.common.WebSite;
+import com.lomoasia.easyallshopping.event.SettingEvent;
 
 import java.util.HashMap;
 

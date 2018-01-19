@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.lomoasia.easyallshopping.common.ClipboardUtil;
+import com.lomoasia.easyallshopping.common.Settings;
 
 /**
  * Created by asia on 2018/1/12.
@@ -22,6 +23,8 @@ public class EasyShopApp extends Application {
         application = this;
 
         ClipboardUtil.init(this);
+
+        Settings.initialize(this);
     }
 
     public static Context getContext() {

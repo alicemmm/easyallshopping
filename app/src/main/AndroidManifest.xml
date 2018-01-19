@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--<uses-permission android:name="android.permission.CAMERA"/>-->
 
+    <!-- 创建与删除文件 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
     <application
         android:name=".EasyShopApp"
         android:allowBackup="true"
