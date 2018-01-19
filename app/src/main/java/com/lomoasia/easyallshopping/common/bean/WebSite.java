@@ -7,6 +7,7 @@ package com.lomoasia.easyallshopping.common.bean;
 public class WebSite {
     public static final String M_TAO_BAO = "https://m.taobao.com/";
     public static final String M_JING_DONG = "https://m.jd.com/";
-    public static final String M_WEIPINHUI = "https://m.vip.com/";
     public static final String M_YAMAXUN = "https://www.amazon.cn/";
+    public static final String M_WEIPINHUI = "https://m.vip.com/";
+    public static final String M_YANXUAN = "https://m.you.163.com/";
 }
