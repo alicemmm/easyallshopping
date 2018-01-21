@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
+import com.lomoasia.easyallshopping.donate.AliDonate;
 import com.lomoasia.easyallshopping.web.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.SPUtils;
@@ -36,6 +37,9 @@ import com.lomoasia.easyallshopping.common.bean.WebSite;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.lomoasia.easyallshopping.event.SettingEvent;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -169,6 +173,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
+        Bmob.initialize(context,WebSite.BMOB_APPLICATION_ID);
+
         String defaultUrl = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, null);
         if (TextUtils.isEmpty(defaultUrl)) {
             SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
@@ -303,7 +309,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            AliDonate.startAlipayClient(MainActivity.this,AliDonate.PAY_CODE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

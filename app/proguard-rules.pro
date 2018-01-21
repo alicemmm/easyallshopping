@@ -71,3 +71,6 @@
 }
 -dontwarn com.just.library.**
 -keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }
+
+-keep class cn.bmob.v3.** {*;}
+#-keep class com.example.bmobexample.bean.BankCard{*;}

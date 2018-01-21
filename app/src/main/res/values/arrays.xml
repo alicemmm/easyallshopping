@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="default_website_name_list">
-    </string-array>
-
-    <string-array name="default_website_url_list">
-    </string-array>
-
-</resources>

@@ -17,10 +17,14 @@ import java.net.URISyntaxException;
  *
  * http://www.cnblogs.com/didikee/p/7257550.html
  *
+ * HTTPS://QR.ALIPAY.COM/FKX00662HMXAHFIMUWC507
+ *
  */
 
 public class AliDonate {
     private static final String ALIPAY_PACKAGE_NAME = "com.eg.android.AlipayGphone";
+
+    public static final String PAY_CODE = "FKX00662HMXAHFIMUWC507";
 
     private static final String INTENT_URL_FORMAT = "intent://platformapi/startapp?saId=10000007&" +
             "clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2F{payCode}%3F_s" +
