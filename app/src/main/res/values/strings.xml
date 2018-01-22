@@ -19,6 +19,7 @@
     <string name="check_update">检查更新</string>
     <string name="weixin_not_installed">你好像没有安装微信</string>
     <string name="clear_cache_success">已清理缓存</string>
+    <string name="pay_donate">捐赠</string>
 
     <string name="web_site_taobao">淘宝</string>
     <string name="web_site_jingdong">京东</string>
@@ -26,7 +27,12 @@
 
     <string name="drawer_menu_other">其他</string>
 
+    <string name="taokey_dialog_title">淘口令:</string>
+    <string name="taokey_dialog_message">检测到有一个淘口令:%s,是否马上打开？</string>
 
+    <string name="dialog_open">打开</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_ok">确定</string>
 
     <string name="test">【未来简史（中文版） 赠未来简史和人类简史伴读有声书  人工智能 尤瓦尔 赫拉利 著  罗辑思维罗振宇推荐】http://www.dwntme.com/h.ZZvEWF4 点击链接，再选择浏览器打开；或复制这条信息￥hQt90lhvbpE￥后打开👉手淘👈</string>
 </resources>

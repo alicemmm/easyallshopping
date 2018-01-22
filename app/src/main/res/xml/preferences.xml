@@ -5,13 +5,18 @@
         android:key="about_group"
         android:title="@string/about">
 
-        <Preference
-            android:key="pay"
-            android:title="@string/check_update"/>
+        <SwitchPreference
+            android:key="tao_key_model"
+            android:title="taokey"
+            android:summary="summery" />
 
         <Preference
             android:key="check_update"
             android:title="@string/check_update"/>
+
+        <Preference
+            android:key="pay_donate"
+            android:title="@string/pay_donate"/>
 
     </PreferenceCategory>
 

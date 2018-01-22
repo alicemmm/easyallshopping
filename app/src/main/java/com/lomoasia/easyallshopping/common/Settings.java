@@ -13,6 +13,10 @@ import com.lomoasia.easyallshopping.event.SettingEvent;
 
 public class Settings implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    public static final String KEY_LANGUAGE = "language";
+    public static final String KEY_TAO_KEY_MODEL = "tao_key_model";
+    public static final String KEY_PAY_DONATE = "pay_donate";
+
     private volatile static Settings settings;
 
     private Context context;
@@ -59,5 +63,13 @@ public class Settings implements SharedPreferences.OnSharedPreferenceChangeListe
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean _isTaokeyModel() {
+        return defaultSharedPreferences.getBoolean(KEY_TAO_KEY_MODEL, true);
+    }
+
+    public static boolean isTaokeyModel() {
+        return settings._isTaokeyModel();
     }
 }

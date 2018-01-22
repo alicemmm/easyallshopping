@@ -3,6 +3,7 @@ package com.lomoasia.easyallshopping.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
+import com.lomoasia.easyallshopping.common.Settings;
 import com.lomoasia.easyallshopping.donate.AliDonate;
 import com.lomoasia.easyallshopping.web.FragmentKeyDown;
 import com.lomoasia.easyallshopping.common.Launcher;
@@ -124,6 +127,12 @@ public class MainActivity extends AppCompatActivity
         initData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showTaokeyDialog();
+    }
+
     @SuppressLint("MissingSuperCall")
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -173,7 +182,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-        Bmob.initialize(context,WebSite.BMOB_APPLICATION_ID);
+        Bmob.initialize(context, WebSite.BMOB_APPLICATION_ID);
         BmobUpdateAgent.update(context);
 
 
@@ -190,10 +199,36 @@ public class MainActivity extends AppCompatActivity
         });
 
         settingEventReceiver.register();
+    }
 
-        WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
-        if (webSiteBean != null) {
-            TaoKeyTools.clearTaokey();
+    private void showTaokeyDialog() {
+        if (Settings.isTaokeyModel()) {
+            WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
+            if (webSiteBean != null && !isFinishing()) {
+                String title = webSiteBean.getTitle();
+                final String url = webSiteBean.getUrl();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(R.string.taokey_dialog_title)
+                        .setMessage(String.format(getString(R.string.taokey_dialog_message), title))
+                        .setPositiveButton(R.string.dialog_open, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (agentWebFragment != null) {
+                                    AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+                                    if (agentWeb != null) {
+                                        agentWeb.getLoader().loadUrl(url);
+                                    }
+                                }
+                                TaoKeyTools.clearTaokey();
+                            }
+                        }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TaoKeyTools.clearTaokey();
+                    }
+                }).show();
+            }
         }
     }
 
@@ -311,7 +346,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-            AliDonate.startAlipayClient(MainActivity.this,AliDonate.PAY_CODE);
+            AliDonate.startAlipayClient(MainActivity.this, AliDonate.PAY_CODE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
