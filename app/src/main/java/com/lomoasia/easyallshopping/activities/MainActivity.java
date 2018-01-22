@@ -174,6 +174,8 @@ public class MainActivity extends AppCompatActivity
 
     private void initData() {
         Bmob.initialize(context,WebSite.BMOB_APPLICATION_ID);
+        BmobUpdateAgent.update(context);
+
 
         String defaultUrl = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, null);
         if (TextUtils.isEmpty(defaultUrl)) {
