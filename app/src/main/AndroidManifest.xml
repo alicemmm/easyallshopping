@@ -53,6 +53,13 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
+            android:name=".activities.WebsiteManagerActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>

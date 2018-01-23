@@ -10,7 +10,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.Settings;
 
@@ -37,6 +39,15 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 showDonateDialog();
+                return true;
+            }
+        });
+
+        findPreference(Settings.KEY_CLEAR_CACHE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AgentWebConfig.clearDiskCache(context);
+                Toast.makeText(getActivity(), R.string.clear_cache_success, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

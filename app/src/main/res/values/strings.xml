@@ -16,14 +16,20 @@
     <string name="menu_exit">退出</string>
 
     <string name="about">关于</string>
+    <string name="about_feedback">反馈</string>
+    <string name="about_open_source">开放源代码许可</string>
     <string name="check_update">检查更新</string>
     <string name="weixin_not_installed">你好像没有安装微信</string>
     <string name="clear_cache_success">已清理缓存</string>
     <string name="pay_donate">捐赠</string>
 
+    <string name="other">其他</string>
+
+    <string name="action_add">添加</string>
+
     <string name="web_site_taobao">淘宝</string>
     <string name="web_site_jingdong">京东</string>
-    <string name="web_site_yamaxun">亚马逊</string>
+    <string name="web_site_amazon">亚马逊</string>
 
     <string name="drawer_menu_other">其他</string>
 

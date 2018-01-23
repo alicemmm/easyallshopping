@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/website_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        tools:text="title"
+        android:textColor="@color/primaryText"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        tools:ignore="RelativeOverlap" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/website_select_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_topic_select_true" />
+
+</RelativeLayout>

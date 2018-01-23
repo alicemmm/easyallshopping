@@ -27,11 +27,13 @@ import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.PermissionInterceptor;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.activities.MainActivity;
-import com.lomoasia.easyallshopping.web.FragmentKeyDown;
+import com.lomoasia.easyallshopping.common.JsonUtils;
 import com.lomoasia.easyallshopping.common.SPUtils;
-import com.lomoasia.easyallshopping.web.UIController;
 import com.lomoasia.easyallshopping.common.bean.WebSite;
+import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.lomoasia.easyallshopping.web.CustomSettings;
+import com.lomoasia.easyallshopping.web.FragmentKeyDown;
+import com.lomoasia.easyallshopping.web.UIController;
 
 import java.util.HashMap;
 
@@ -120,11 +122,16 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
     }
 
     private String getUrl() {
-        String target = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
-        if (TextUtils.isEmpty(target)) {
-            target = WebSite.M_TAO_BAO;
+        String url = WebSite.M_TAO_BAO;
+        String targetJson = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, "");
+        if (!TextUtils.isEmpty(targetJson)) {
+            WebSiteBean webSiteBean = JsonUtils.objectFromJson(targetJson, WebSiteBean.class);
+            if (webSiteBean != null && !TextUtils.isEmpty(webSiteBean.getUrl())) {
+                url = webSiteBean.getUrl();
+            }
         }
-        return target;
+
+        return url;
     }
 
     protected ChromeClientCallbackManager.ReceivedTitleCallback callback = new ChromeClientCallbackManager.ReceivedTitleCallback() {
@@ -239,7 +246,6 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
             agentWeb.getWebLifeCycle().onResume();
         }
         super.onResume();
-
 
 
     }

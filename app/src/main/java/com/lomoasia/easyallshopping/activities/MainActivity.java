@@ -24,25 +24,23 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
-import com.lomoasia.easyallshopping.common.Settings;
-import com.lomoasia.easyallshopping.donate.AliDonate;
-import com.lomoasia.easyallshopping.web.FragmentKeyDown;
+import com.lomoasia.easyallshopping.common.JsonUtils;
 import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.SPUtils;
+import com.lomoasia.easyallshopping.common.Settings;
 import com.lomoasia.easyallshopping.common.TaoKeyTools;
 import com.lomoasia.easyallshopping.common.bean.WebSite;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.lomoasia.easyallshopping.event.SettingEvent;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
+import com.lomoasia.easyallshopping.web.FragmentKeyDown;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,10 +50,8 @@ public class MainActivity extends AppCompatActivity
 
     private SettingEvent.Receiver settingEventReceiver;
 
-    private LinearLayout mainLinearLayout;
     private TextView titleTextView;
 
-    private FragmentManager fragmentManager;
     private AgentWebFragment agentWebFragment;
 
     private long lastBackTime = 0;
@@ -144,8 +140,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initView() {
-        mainLinearLayout = findViewById(R.id.main_layout_ll);
-        fragmentManager = this.getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.main_layout_ll, agentWebFragment = AgentWebFragment.getInstance(), AgentWebFragment.class.getName());
         ft.commit();
@@ -183,18 +178,21 @@ public class MainActivity extends AppCompatActivity
 
     private void initData() {
         Bmob.initialize(context, WebSite.BMOB_APPLICATION_ID);
-        BmobUpdateAgent.update(context);
 
-
-        String defaultUrl = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, null);
-        if (TextUtils.isEmpty(defaultUrl)) {
-            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
+        String targetJson = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, "");
+        if (TextUtils.isEmpty(targetJson)) {
+            WebSiteBean webSiteBean = new WebSiteBean();
+            webSiteBean.setTitle(getString(R.string.web_site_taobao));
+            webSiteBean.setUrl(WebSite.M_TAO_BAO);
+            SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, JsonUtils.objectToJson(webSiteBean));
         }
 
         settingEventReceiver = new SettingEvent.Receiver(context, new SettingEvent.Listener() {
             @Override
             public void onSettingChanged(Context context, String key) {
-
+                if (Settings.KEY_HOME_PAGE_CHANGE.equals(key)) {
+                    loadUrl();
+                }
             }
         });
 
@@ -293,13 +291,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_web_page_main) {
-            if (agentWebFragment != null) {
-                AgentWeb agentWeb = agentWebFragment.getAgentWeb();
-                if (agentWeb != null) {
-                    String url = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, WebSite.M_TAO_BAO);
-                    agentWeb.getLoader().loadUrl(url);
-                }
-            }
+            loadUrl();
             return true;
         } else if (id == R.id.menu_refresh) {
             if (agentWebFragment != null) {
@@ -328,6 +320,21 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadUrl() {
+        if (agentWebFragment != null) {
+            AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+            if (agentWeb != null) {
+                String targetJson = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, "");
+                if (!TextUtils.isEmpty(targetJson)) {
+                    WebSiteBean webSiteBean = JsonUtils.objectFromJson(targetJson, WebSiteBean.class);
+                    if (webSiteBean != null) {
+                        agentWeb.getLoader().loadUrl(webSiteBean.getUrl());
+                    }
+                }
+            }
+        }
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -346,7 +353,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-            AliDonate.startAlipayClient(MainActivity.this, AliDonate.PAY_CODE);
+            startActivity(new Intent(context, WebsiteManagerActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

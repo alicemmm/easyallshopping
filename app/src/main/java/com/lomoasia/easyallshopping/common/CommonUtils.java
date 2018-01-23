@@ -2,6 +2,8 @@ package com.lomoasia.easyallshopping.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
@@ -31,8 +33,28 @@ public class CommonUtils {
         List<WebSiteBean> webSiteBeanList = new ArrayList<>();
 
 
-
         return webSiteBeanList;
+    }
+
+
+    public static void printWrapper(String tag, String msg) {
+        if (tag == null || tag.length() == 0
+                || msg == null || msg.length() == 0) {
+            return;
+        }
+
+        int segmentSize = 3 * 1024;
+        long length = msg.length();
+        if (length <= segmentSize) {
+            Log.e(tag, msg);
+        } else {
+            while (msg.length() > segmentSize) {
+                String logContent = msg.substring(0, segmentSize);
+                msg = msg.replace(logContent, "");
+                Log.e(tag, logContent);
+            }
+            Log.e(tag, msg);
+        }
     }
 
 }

@@ -40,7 +40,7 @@ android {
 }
 
 
-    dependencies {
+dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
@@ -48,12 +48,12 @@ android {
     implementation 'com.android.support:multidex:1.0.2'
 
     implementation 'com.just.agentweb:agentweb:3.1.0'
-//    implementation 'com.google.code.gson:gson:2.8.2'
 
     implementation 'cn.bmob.android:bmob-sdk:3.5.5'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
-//    compile 'cn.bmob.android:http-legacy:1.0'
+    compile 'cn.bmob.android:http-legacy:1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

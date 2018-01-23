@@ -13,7 +13,7 @@ public class SPUtils {
     private static final String FILE_NAME = "easy_shop_share_data";
 
     public static final String DEFAULT_URL_KEY = "default_url_key";
-
+    public static final String DEFAULT_URL_LIST_KEY = "default_url_list_key";
 
     public static void put(Context context, String key, Object object) {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,

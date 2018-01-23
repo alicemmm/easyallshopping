@@ -2,21 +2,52 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:key="home_page"
+        android:title="@string/menu_main">
+
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="other"
+        android:title="@string/other">
+
+        <Preference
+            android:key="clear_cache"
+            android:title="@string/menu_clear" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="about_group"
         android:title="@string/about">
 
         <SwitchPreference
+            android:defaultValue="true"
             android:key="tao_key_model"
-            android:title="taokey"
-            android:summary="summery" />
+            android:summary="summery"
+            android:title="taokey" />
 
         <Preference
             android:key="check_update"
-            android:title="@string/check_update"/>
+            android:title="@string/check_update" />
+
+        <Preference
+            android:key="feedback"
+            android:title="@string/about_feedback" />
+
+        <Preference
+            android:key="open_source"
+            android:title="@string/about_open_source" />
 
         <Preference
             android:key="pay_donate"
-            android:title="@string/pay_donate"/>
+            android:title="@string/pay_donate" />
+
+        <Preference
+            android:key="about_about"
+            android:title="@string/about" />
 
     </PreferenceCategory>
 

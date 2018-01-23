@@ -14,8 +14,12 @@ import com.lomoasia.easyallshopping.event.SettingEvent;
 public class Settings implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String KEY_LANGUAGE = "language";
+
+    public static final String KEY_HOME_PAGE_CHANGE = "home_page_change";
+
     public static final String KEY_TAO_KEY_MODEL = "tao_key_model";
     public static final String KEY_PAY_DONATE = "pay_donate";
+    public static final String KEY_CLEAR_CACHE = "clear_cache";
 
     private volatile static Settings settings;
 
