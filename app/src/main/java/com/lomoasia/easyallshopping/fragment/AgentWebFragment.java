@@ -27,7 +27,6 @@ import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.PermissionInterceptor;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.activities.MainActivity;
-import com.lomoasia.easyallshopping.common.JsonUtils;
 import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.bean.WebSite;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
@@ -123,12 +122,9 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
 
     private String getUrl() {
         String url = WebSite.M_TAO_BAO;
-        String targetJson = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, "");
-        if (!TextUtils.isEmpty(targetJson)) {
-            WebSiteBean webSiteBean = JsonUtils.objectFromJson(targetJson, WebSiteBean.class);
-            if (webSiteBean != null && !TextUtils.isEmpty(webSiteBean.getUrl())) {
-                url = webSiteBean.getUrl();
-            }
+        WebSiteBean webSiteBean = SPUtils.getCurrentWebsite(context);
+        if (webSiteBean != null && !TextUtils.isEmpty(webSiteBean.getUrl())) {
+            url = webSiteBean.getUrl();
         }
 
         return url;

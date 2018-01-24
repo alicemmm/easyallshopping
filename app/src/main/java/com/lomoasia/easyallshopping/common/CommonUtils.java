@@ -2,11 +2,13 @@ package com.lomoasia.easyallshopping.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +31,13 @@ public class CommonUtils {
         }
     }
 
-    private List<WebSiteBean> getDefaultWebSite(Context context) {
-        List<WebSiteBean> webSiteBeanList = new ArrayList<>();
-
-
-        return webSiteBeanList;
+    public static RecyclerView.ItemDecoration getDefaultItemDecoration(Context context) {
+        return new HorizontalDividerItemDecoration.Builder(context)
+                .colorResId(R.color.dividerColor)
+                .sizeResId(R.dimen.default_item_decoration_size)
+                .showLastDivider()
+                .build();
     }
-
 
     public static void printWrapper(String tag, String msg) {
         if (tag == null || tag.length() == 0

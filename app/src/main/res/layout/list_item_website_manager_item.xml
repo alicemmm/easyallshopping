@@ -11,10 +11,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        tools:text="title"
-        android:textColor="@color/primaryText"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        tools:ignore="RelativeOverlap" />
+        android:textColor="@color/primaryText"
+        tools:ignore="RelativeOverlap"
+        tools:text="title" />
+
+    <RelativeLayout
+        android:id="@+id/option_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/website_select_iv"
+        android:layout_toStartOf="@+id/website_select_iv">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="4dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_setting_menu" />
+    </RelativeLayout>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/website_select_iv"

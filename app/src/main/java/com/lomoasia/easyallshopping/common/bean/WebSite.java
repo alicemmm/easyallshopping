@@ -13,4 +13,6 @@ public class WebSite {
 
     public static final String BMOB_APPLICATION_ID = "c463103c42b6667dee60cdb50b06de9f";
 
+    public static final String WEBSITE_PATTERN = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+
 }

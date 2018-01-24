@@ -2,7 +2,13 @@ package com.lomoasia.easyallshopping.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
+import com.google.gson.reflect.TypeToken;
+import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
+
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +21,7 @@ public class SPUtils {
     public static final String DEFAULT_URL_KEY = "default_url_key";
     public static final String DEFAULT_URL_LIST_KEY = "default_url_list_key";
 
-    public static void put(Context context, String key, Object object) {
+    private static void put(Context context, String key, Object object) {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -37,7 +43,7 @@ public class SPUtils {
         editor.apply();
     }
 
-    public static Object get(Context context, String key, Object defaultObject) {
+    private static Object get(Context context, String key, Object defaultObject) {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
 
@@ -82,5 +88,53 @@ public class SPUtils {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sp.getAll();
+    }
+
+    public static WebSiteBean getCurrentWebsite(Context context) {
+        WebSiteBean webSiteBean = null;
+        String targetJson = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_KEY, "");
+        if (!TextUtils.isEmpty(targetJson)) {
+            webSiteBean = JsonUtils.objectFromJson(targetJson, WebSiteBean.class);
+        }
+        return webSiteBean;
+    }
+
+    public static void setCurrentWebsite(Context context, WebSiteBean webSiteBean) {
+        SPUtils.put(context, SPUtils.DEFAULT_URL_KEY, JsonUtils.objectToJson(webSiteBean));
+    }
+
+    public static List<WebSiteBean> getCurrentWebsiteList(Context context) {
+        List<WebSiteBean> webSiteBeanList = null;
+        String urlListJson = (String) SPUtils.get(context, SPUtils.DEFAULT_URL_LIST_KEY, "");
+        if (!TextUtils.isEmpty(urlListJson)) {
+            webSiteBeanList = JsonUtils.objectFromJson(urlListJson, new TypeToken<List<WebSiteBean>>() {
+            }.getType());
+        }
+
+        return webSiteBeanList;
+    }
+
+    public static void setCurrentWebsiteList(Context context, List<WebSiteBean> webSiteBeanList) {
+        SPUtils.put(context, SPUtils.DEFAULT_URL_LIST_KEY, JsonUtils.objectToJson(webSiteBeanList));
+    }
+
+    public static void addCurrentWebsiteList(Context context, WebSiteBean webSiteBean) {
+        List<WebSiteBean> webSiteBeanList = getCurrentWebsiteList(context);
+        webSiteBeanList.add(webSiteBean);
+
+        setCurrentWebsiteList(context, webSiteBeanList);
+    }
+
+    public static void removeCurrentWebsiteList(Context context, WebSiteBean webSiteBean) {
+        List<WebSiteBean> webSiteBeanList = getCurrentWebsiteList(context);
+        Iterator<WebSiteBean> webSiteBeanIterator = webSiteBeanList.iterator();
+        while (webSiteBeanIterator.hasNext()) {
+            WebSiteBean bean = webSiteBeanIterator.next();
+            if (bean.getUrl().equals(webSiteBean.getUrl())) {
+                webSiteBeanIterator.remove();
+            }
+        }
+
+        setCurrentWebsiteList(context, webSiteBeanList);
     }
 }

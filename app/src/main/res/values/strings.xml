@@ -26,6 +26,8 @@
     <string name="other">其他</string>
 
     <string name="action_add">添加</string>
+    <string name="action_add_dialog">添加主页</string>
+    <string name="action_delete">删除</string>
 
     <string name="web_site_taobao">淘宝</string>
     <string name="web_site_jingdong">京东</string>
