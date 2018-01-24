@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="6dp"
+    android:paddingTop="6dp">
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInput_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
+        app:counterOverflowTextAppearance="@style/counterOverflow"
+        app:counterTextAppearance="@color/colorPrimary"
+        app:hintAnimationEnabled="true">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/website_title_tv"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="title" />
+            android:textSize="12sp"
+            android:hint="@string/main_page_name" />
+    </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/website_title_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInput_website"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
+        app:counterOverflowTextAppearance="@style/counterOverflow"
+        app:counterTextAppearance="@color/colorPrimary"
+        app:hintAnimationEnabled="true">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/website_web_tv"
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="title2" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/website_web_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+            android:textSize="12sp"
+            android:hint="@string/main_page_website" />
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

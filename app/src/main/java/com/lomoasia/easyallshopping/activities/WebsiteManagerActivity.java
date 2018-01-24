@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -204,8 +207,10 @@ public class WebsiteManagerActivity extends AppCompatActivity {
         builder.setTitle(R.string.action_add_dialog);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_add_website, null);
-        final AppCompatEditText websiteTitleEt = dialogView.findViewById(R.id.website_title_et);
-        final AppCompatEditText websiteWebEt = dialogView.findViewById(R.id.website_web_et);
+        final TextInputLayout websiteTitleTl = dialogView.findViewById(R.id.textInput_name);
+        final TextInputLayout websiteWebTl = dialogView.findViewById(R.id.textInput_website);
+        websiteTitleTl.setErrorEnabled(false);
+        websiteWebTl.setErrorEnabled(false);
         builder.setView(dialogView);
         builder.setPositiveButton(R.string.dialog_ok, null);
         builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
@@ -219,18 +224,36 @@ public class WebsiteManagerActivity extends AppCompatActivity {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = websiteTitleEt.getText().toString();
-                String website = websiteWebEt.getText().toString();
+                EditText titleEdit = websiteTitleTl.getEditText();
+                EditText websiteEdit = websiteWebTl.getEditText();
+                if (titleEdit == null || websiteEdit == null) {
+                    return;
+                }
+                String title = titleEdit.getText().toString();
+                String website = websiteEdit.getText().toString();
 
                 Pattern pattern = Pattern.compile(WebSite.WEBSITE_PATTERN);
                 Matcher matcher = pattern.matcher(website);
 
-                if (!TextUtils.isEmpty(title) && matcher.matches()) {
-                    saveWebsiteBean(title, website);
-
-                    recyclerView.setAdapter(websiteManagerAdapter);
-                    alertDialog.dismiss();
+                if (TextUtils.isEmpty(title)) {
+                    websiteTitleTl.setError(getString(R.string.dialog_title_is_null));
+                    return;
                 }
+
+                if (title.length() > 20) {
+                    websiteTitleTl.setError(getString(R.string.dialog_title_is_more));
+                    return;
+                }
+
+                if (!matcher.matches()) {
+                    websiteWebTl.setError(getString(R.string.dialog_website_is_error));
+                    return;
+                }
+
+                saveWebsiteBean(title, website);
+
+                recyclerView.setAdapter(websiteManagerAdapter);
+                alertDialog.dismiss();
             }
         });
     }
