@@ -10,9 +10,14 @@
         android:id="@+id/website_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:maxLength="18"
+        android:maxLines="1"
+        android:singleLine="true"
         android:textColor="@color/primaryText"
+        android:textSize="14sp"
         tools:ignore="RelativeOverlap"
         tools:text="title" />
 
@@ -21,6 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_toLeftOf="@+id/website_select_iv"
         android:layout_toStartOf="@+id/website_select_iv">
 
