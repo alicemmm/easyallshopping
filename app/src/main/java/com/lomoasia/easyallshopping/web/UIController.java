@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import com.just.agentweb.AgentWebUIControllerImplBase;
 
 /**
- * Created by cenxiaozhong on 2017/12/23.
+ * Created by asia on 2017/12/23.
  */
 
 /**
@@ -20,21 +20,21 @@ import com.just.agentweb.AgentWebUIControllerImplBase;
  */
 public class UIController extends AgentWebUIControllerImplBase {
 
-    private Activity mActivity;
+    private Activity activity;
 
     public UIController(Activity activity) {
-        this.mActivity = activity;
+        this.activity = activity;
     }
 
     @Override
     public void showMessage(String message, String from) {
         super.showMessage(message, from);
-        Log.i(TAG, "message:" + message);
     }
 
     @Override
     public void showChooser(WebView view, String url, String[] ways, Handler.Callback callback) {
-        super.showChooser(view, url, ways, callback); //使用默认的UI
+//        super.showChooser(view, url, ways, callback);
+        callback.handleMessage(Message.obtain(null, -1));
     }
 
 
