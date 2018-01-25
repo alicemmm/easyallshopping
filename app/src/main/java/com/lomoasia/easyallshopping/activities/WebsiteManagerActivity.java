@@ -195,11 +195,17 @@ public class WebsiteManagerActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_add) {
             doClickAddWebsite();
+        } else if (id == R.id.action_help) {
+            doClickHelp();
         } else if (id == android.R.id.home) {
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void doClickHelp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
     }
 
     private void doClickAddWebsite() {

@@ -2,7 +2,9 @@ package com.lomoasia.easyallshopping.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
@@ -15,6 +17,11 @@ import android.widget.Toast;
 import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.Settings;
+import com.lomoasia.easyallshopping.donate.AliDonate;
+import com.lomoasia.easyallshopping.donate.WeiXDonate;
+
+import java.io.File;
+import java.io.InputStream;
 
 /**
  * Created by asia on 2018/1/18.
@@ -57,26 +64,48 @@ public class SettingsFragment extends PreferenceFragment {
 
     private void showDonateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("title")
+        builder.setTitle(R.string.pay_donate)
+                .setCancelable(false)
                 .setMessage("message")
-                .setNeutralButton("neutral", new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.dialog_none, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 })
-                .setPositiveButton("positive", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.pay_donate_alipay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        AliDonate.startAlipayClient(getActivity(), AliDonate.PAY_CODE);
+                        dialog.dismiss();
                     }
                 })
-                .setNegativeButton("negative", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.pay_donate_wechat, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        showWechatDonateDialog();
+                        dialog.dismiss();
                     }
                 }).show();
+    }
 
+    private void showWechatDonateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false)
+                .setTitle("")
+                .setMessage("")
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        InputStream weixinQrIs = getResources().openRawResource(R.raw.wcode);
+                        String qrPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                                File.separator + "easyshop" + File.separator +
+                                "cccrr_weixin.png";
+
+                        WeiXDonate.saveDonateQrImage2SDCard(qrPath, BitmapFactory.decodeStream(weixinQrIs));
+                        WeiXDonate.donateViaWeiXin(getActivity(), qrPath);
+                    }
+                })
+                .show();
     }
 }
