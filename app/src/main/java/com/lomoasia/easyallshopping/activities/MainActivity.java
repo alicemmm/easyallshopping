@@ -1,5 +1,6 @@
 package com.lomoasia.easyallshopping.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,7 +15,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -44,7 +44,7 @@ import cn.bmob.v3.update.BmobUpdateAgent;
 import cn.bmob.v3.update.UpdateResponse;
 import cn.bmob.v3.update.UpdateStatus;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends PermissionActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity
 
         initView();
 
+//        checkPermission(null, R.string.ask_again, Manifest.permission.READ_PHONE_STATE);
+
         initData();
     }
 
@@ -206,32 +208,37 @@ public class MainActivity extends AppCompatActivity
 
     private void showTaokeyDialog() {
         if (Settings.isTaokeyModel()) {
-            WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
-            if (webSiteBean != null && !isFinishing()) {
-                String title = webSiteBean.getTitle();
-                final String url = webSiteBean.getUrl();
+            checkPermission(new PermissionActivity.CheckPermListener() {
+                @Override
+                public void superPermission() {
+                    WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
+                    if (webSiteBean != null && !isFinishing()) {
+                        String title = webSiteBean.getTitle();
+                        final String url = webSiteBean.getUrl();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(R.string.taokey_dialog_title)
-                        .setMessage(String.format(getString(R.string.taokey_dialog_message), title))
-                        .setPositiveButton(R.string.dialog_open, new DialogInterface.OnClickListener() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(R.string.taokey_dialog_title)
+                                .setMessage(String.format(getString(R.string.taokey_dialog_message), title))
+                                .setPositiveButton(R.string.dialog_open, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (agentWebFragment != null) {
+                                            AgentWeb agentWeb = agentWebFragment.getAgentWeb();
+                                            if (agentWeb != null) {
+                                                agentWeb.getLoader().loadUrl(url);
+                                            }
+                                        }
+                                        TaoKeyTools.clearTaokey();
+                                    }
+                                }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (agentWebFragment != null) {
-                                    AgentWeb agentWeb = agentWebFragment.getAgentWeb();
-                                    if (agentWeb != null) {
-                                        agentWeb.getLoader().loadUrl(url);
-                                    }
-                                }
                                 TaoKeyTools.clearTaokey();
                             }
-                        }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        TaoKeyTools.clearTaokey();
+                        }).show();
                     }
-                }).show();
-            }
+                }
+            }, R.string.ask_again, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
     }
 
@@ -244,7 +251,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (agentWebFragment != null) {
             agentWebFragment.onActivityResult(requestCode, resultCode, data);
@@ -345,10 +352,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

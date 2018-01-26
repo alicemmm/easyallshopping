@@ -52,5 +52,11 @@
     <string name="dialog_title_is_more">主页名称不能超过20个字符!</string>
     <string name="dialog_website_is_error">主页网址格式错误，请参考说明!</string>
 
+    <string name="perm_tip">
+        当前应用缺少必要权限。\n请点击"设置"-"权限"-打开所需权限。\n最后点击两次后退按钮，即可返回。
+    </string>
+    <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
+    <string name="cancel">取消</string>
+
     <string name="test">【未来简史（中文版） 赠未来简史和人类简史伴读有声书  人工智能 尤瓦尔 赫拉利 著  罗辑思维罗振宇推荐】http://www.dwntme.com/h.ZZvEWF4 点击链接，再选择浏览器打开；或复制这条信息￥hQt90lhvbpE￥后打开👉手淘👈</string>
 </resources>

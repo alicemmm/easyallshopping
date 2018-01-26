@@ -1,5 +1,7 @@
 package com.lomoasia.easyallshopping.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 
 import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
+import com.lomoasia.easyallshopping.activities.PermissionActivity;
+import com.lomoasia.easyallshopping.activities.SettingActivity;
 import com.lomoasia.easyallshopping.common.Settings;
 import com.lomoasia.easyallshopping.donate.AliDonate;
 import com.lomoasia.easyallshopping.donate.WeiXDonate;
@@ -97,13 +101,19 @@ public class SettingsFragment extends PreferenceFragment {
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        InputStream weixinQrIs = getResources().openRawResource(R.raw.wcode);
-                        String qrPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                                File.separator + "easyshop" + File.separator +
-                                "cccrr_weixin.png";
+                        Activity activity = getActivity();
+                        ((SettingActivity) activity).checkPermission(new PermissionActivity.CheckPermListener() {
+                            @Override
+                            public void superPermission() {
+                                InputStream weixinQrIs = getResources().openRawResource(R.raw.wcode);
+                                String qrPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                                        File.separator + "easyshop" + File.separator +
+                                        "cccrr_weixin.png";
 
-                        WeiXDonate.saveDonateQrImage2SDCard(qrPath, BitmapFactory.decodeStream(weixinQrIs));
-                        WeiXDonate.donateViaWeiXin(getActivity(), qrPath);
+                                WeiXDonate.saveDonateQrImage2SDCard(qrPath, BitmapFactory.decodeStream(weixinQrIs));
+                                WeiXDonate.donateViaWeiXin(getActivity(), qrPath);
+                            }
+                        }, R.string.ask_again, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     }
                 })
                 .show();
