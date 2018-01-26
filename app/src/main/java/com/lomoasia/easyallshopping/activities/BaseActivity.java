@@ -14,7 +14,7 @@ import java.util.List;
  * Created by asia on 2018/1/26.
  */
 
-public class PermissionActivity extends AppCompatActivity implements
+public class BaseActivity extends AppCompatActivity implements
         EasyPermissions.PermissionCallbacks {
     protected static final int RC_PERM = 123;
 

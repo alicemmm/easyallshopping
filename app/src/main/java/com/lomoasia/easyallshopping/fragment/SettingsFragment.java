@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
-import com.lomoasia.easyallshopping.activities.PermissionActivity;
+import com.lomoasia.easyallshopping.activities.BaseActivity;
 import com.lomoasia.easyallshopping.activities.SettingActivity;
 import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.Settings;
@@ -111,7 +111,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Activity activity = getActivity();
-                        ((SettingActivity) activity).checkPermission(new PermissionActivity.CheckPermListener() {
+                        ((SettingActivity) activity).checkPermission(new BaseActivity.CheckPermListener() {
                             @Override
                             public void superPermission() {
                                 InputStream weixinQrIs = getResources().openRawResource(R.raw.wcode);

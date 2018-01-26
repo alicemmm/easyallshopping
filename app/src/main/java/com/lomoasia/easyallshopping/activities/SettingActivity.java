@@ -1,13 +1,8 @@
 package com.lomoasia.easyallshopping.activities;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -18,7 +13,7 @@ import com.lomoasia.easyallshopping.fragment.SettingsFragment;
  * Created by asia on 2018/1/12.
  */
 
-public class SettingActivity extends PermissionActivity {
+public class SettingActivity extends BaseActivity {
     private static final String TAG = SettingActivity.class.getSimpleName();
 
     @Override

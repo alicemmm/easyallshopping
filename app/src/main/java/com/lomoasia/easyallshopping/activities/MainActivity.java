@@ -44,7 +44,7 @@ import cn.bmob.v3.update.BmobUpdateAgent;
 import cn.bmob.v3.update.UpdateResponse;
 import cn.bmob.v3.update.UpdateStatus;
 
-public class MainActivity extends PermissionActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -208,10 +208,15 @@ public class MainActivity extends PermissionActivity
 
     private void showTaokeyDialog() {
         if (Settings.isTaokeyModel()) {
-            checkPermission(new PermissionActivity.CheckPermListener() {
+            checkPermission(new BaseActivity.CheckPermListener() {
                 @Override
                 public void superPermission() {
-                    WebSiteBean webSiteBean = TaoKeyTools.getClipboard(context);
+                    WebSiteBean webSiteBean = null;
+                    try {
+                        webSiteBean = TaoKeyTools.getClipboard(context);
+                    } catch (Exception e) {
+                        webSiteBean = null;
+                    }
                     if (webSiteBean != null && !isFinishing()) {
                         String title = webSiteBean.getTitle();
                         final String url = webSiteBean.getUrl();
