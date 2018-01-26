@@ -1,17 +1,15 @@
 package com.lomoasia.easyallshopping.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.lomoasia.easyallshopping.R;
-import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by asia on 2018/1/17.
@@ -29,6 +27,47 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void hideSoftKeyboard(View view) {
+        if (view == null) {
+            return;
+        }
+        View focusView = view;
+
+        Context context = view.getContext();
+        if (context != null && context instanceof Activity) {
+            Activity activity = ((Activity) context);
+            focusView = activity.getCurrentFocus();
+        }
+        if (focusView == null) {
+            return;
+        }
+        focusView.clearFocus();
+        InputMethodManager manager = (InputMethodManager) focusView.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager == null) {
+            return;
+        }
+        manager.hideSoftInputFromWindow(focusView.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    public static void showSoftKeyboard(Context context, View view) {
+        if (view == null) {
+            return;
+        }
+        view.setFocusable(true);
+        view.setFocusableInTouchMode(true);
+        if (!view.isFocused()) {
+            view.requestFocus();
+        }
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) view.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager == null) {
+            return;
+        }
+        inputMethodManager.showSoftInput(view, 0);
     }
 
     public static RecyclerView.ItemDecoration getDefaultItemDecoration(Context context) {
