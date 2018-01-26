@@ -37,6 +37,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    lintOptions {
+        abortOnError true
+        disable 'MissingTranslation'
+        disable 'ExtraTranslation'
+    }
 }
 
 
@@ -54,7 +60,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
-    compile 'cn.bmob.android:http-legacy:1.0'
+    implementation 'cn.bmob.android:http-legacy:1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
