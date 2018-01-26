@@ -20,6 +20,7 @@ import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.activities.PermissionActivity;
 import com.lomoasia.easyallshopping.activities.SettingActivity;
+import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.Settings;
 import com.lomoasia.easyallshopping.donate.AliDonate;
 import com.lomoasia.easyallshopping.donate.WeiXDonate;
@@ -45,6 +46,14 @@ public class SettingsFragment extends PreferenceFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         addPreferencesFromResource(R.xml.preferences);
+
+        findPreference(Settings.KEY_SET_HOME_PAGE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Launcher.startManagerActivity(context);
+                return true;
+            }
+        });
 
         findPreference(Settings.KEY_PAY_DONATE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

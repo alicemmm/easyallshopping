@@ -347,17 +347,13 @@ public class MainActivity extends PermissionActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_menu_main) {
+            Launcher.startManagerActivity(context);
+        } else if (id == R.id.nav_setting) {
+            Launcher.startSettingActivity(context);
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-            startActivity(new Intent(context, WebsiteManagerActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

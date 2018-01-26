@@ -9,6 +9,7 @@
     <string name="press_back_key_quit">再一次返回键退出。</string>
 
     <string name="menu_main">主页</string>
+    <string name="menu_main_setting">主页设置</string>
     <string name="menu_refresh">刷新</string>
     <string name="menu_share">分享</string>
     <string name="menu_open_browser">浏览器打开</string>

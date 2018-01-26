@@ -5,7 +5,9 @@
         android:key="home_page"
         android:title="@string/menu_main">
 
-
+        <Preference
+            android:key="set_home_page"
+            android:title="@string/menu_main_setting" />
 
     </PreferenceCategory>
 
@@ -17,17 +19,17 @@
             android:key="clear_cache"
             android:title="@string/menu_clear" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="about_group"
-        android:title="@string/about">
-
         <SwitchPreference
             android:defaultValue="true"
             android:key="tao_key_model"
             android:summary="summery"
             android:title="taokey" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="about_group"
+        android:title="@string/about">
 
         <Preference
             android:key="check_update"
