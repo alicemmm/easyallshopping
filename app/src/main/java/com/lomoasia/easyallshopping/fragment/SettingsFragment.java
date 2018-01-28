@@ -20,6 +20,7 @@ import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.activities.BaseActivity;
 import com.lomoasia.easyallshopping.activities.SettingActivity;
+import com.lomoasia.easyallshopping.common.CommonUtils;
 import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.Settings;
 import com.lomoasia.easyallshopping.donate.AliDonate;
@@ -68,6 +69,35 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 AgentWebConfig.clearDiskCache(context);
                 Toast.makeText(getActivity(), R.string.clear_cache_success, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        findPreference(Settings.KEY_CHECK_UPDATE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
+            }
+        });
+
+        findPreference(Settings.KEY_FEED_BACK).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
+            }
+        });
+
+        findPreference(Settings.KEY_OPEN_SOURCE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
+            }
+        });
+
+        findPreference(Settings.KEY_ABOUT_ABOUT).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showAboutDialog();
                 return true;
             }
         });
@@ -126,5 +156,18 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 })
                 .show();
+    }
+
+    private void showAboutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.about)
+                .setMessage(String.format(getString(R.string.about_message), CommonUtils.getCurrentVersions(context)))
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
     }
 }

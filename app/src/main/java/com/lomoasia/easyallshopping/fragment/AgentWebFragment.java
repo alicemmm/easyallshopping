@@ -71,7 +71,7 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent((LinearLayout) view,
                         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .setIndicatorColorWithHeight(getResources().getColor(R.color.colorAccent), 2)
+                .setIndicatorColorWithHeight(getResources().getColor(R.color.red), 2)
                 .setAgentWebWebSettings(getSettings())
                 .setWebViewClient(webViewClient)
                 .setWebChromeClient(webChromeClient)

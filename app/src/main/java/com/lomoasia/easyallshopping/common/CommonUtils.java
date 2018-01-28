@@ -3,7 +3,11 @@ package com.lomoasia.easyallshopping.common;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -76,6 +80,25 @@ public class CommonUtils {
                 .sizeResId(R.dimen.default_item_decoration_size)
                 .showLastDivider()
                 .build();
+    }
+
+    public static String getCurrentVersions(Context context) {
+        String versionName = "";
+        int versionCode = -1;
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo("com.lomoasia.easyallshopping", 0);
+            versionName = packageInfo.versionName;
+            versionCode = packageInfo.versionCode;
+            if (TextUtils.isEmpty(versionName)) {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return versionName + "(" + versionCode + ")";
+
     }
 
     public static void printWrapper(String tag, String msg) {
