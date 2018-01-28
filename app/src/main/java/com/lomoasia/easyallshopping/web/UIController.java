@@ -9,6 +9,7 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import com.just.agentweb.AgentWebUIControllerImplBase;
+import com.lomoasia.easyallshopping.common.Settings;
 
 /**
  * Created by asia on 2017/12/23.
@@ -33,8 +34,12 @@ public class UIController extends AgentWebUIControllerImplBase {
 
     @Override
     public void showChooser(WebView view, String url, String[] ways, Handler.Callback callback) {
-//        super.showChooser(view, url, ways, callback);
-        callback.handleMessage(Message.obtain(null, -1));
+        boolean isWakeupApp = Settings.isWakeupApp();
+        if (isWakeupApp) {
+            super.showChooser(view, url, ways, callback);
+        } else {
+            callback.handleMessage(Message.obtain(null, -1));
+        }
     }
 
 

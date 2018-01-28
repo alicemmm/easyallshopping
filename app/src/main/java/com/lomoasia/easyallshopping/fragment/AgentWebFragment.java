@@ -144,6 +144,8 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         public void onProgressChanged(WebView view, int newProgress) {
             //  super.onProgressChanged(view, newProgress);
             Log.e(TAG, "onProgressChanged:" + newProgress + "  view:" + view);
+
+//            view.loadUrl("JavaScript:function setTop(){document.querySelector('.j6d608a').style.display=\"none\";}setTop();");
         }
     };
 
@@ -167,7 +169,8 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
             Log.e(TAG, "mWebViewClient shouldOverrideUrlLoading:" + url);
             //intent:// scheme的处理 如果返回false ， 则交给 DefaultWebClient 处理 ， 默认会打开该Activity  ， 如果Activity不存在则跳到应用市场上去.  true 表示拦截
 
-            return true;
+
+            return false;
         }
 
         @Override

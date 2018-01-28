@@ -15,15 +15,21 @@
         android:key="other"
         android:title="@string/other">
 
-        <Preference
-            android:key="clear_cache"
-            android:title="@string/menu_clear" />
-
         <SwitchPreference
             android:defaultValue="true"
             android:key="tao_key_model"
-            android:summary="summery"
-            android:title="taokey" />
+            android:summary="@string/set_other_tao_message"
+            android:title="@string/set_other_tao" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="wake_up_app"
+            android:summary="@string/set_other_wakeup_app_message"
+            android:title="@string/set_other_wakeup_app" />
+
+        <Preference
+            android:key="clear_cache"
+            android:title="@string/menu_clear" />
 
     </PreferenceCategory>
 

@@ -19,6 +19,7 @@ public class Settings implements SharedPreferences.OnSharedPreferenceChangeListe
 
     public static final String KEY_SET_HOME_PAGE = "set_home_page";
     public static final String KEY_TAO_KEY_MODEL = "tao_key_model";
+    public static final String KEY_WAKEUP_APP = "wake_up_app";
     public static final String KEY_PAY_DONATE = "pay_donate";
     public static final String KEY_CLEAR_CACHE = "clear_cache";
 
@@ -76,5 +77,13 @@ public class Settings implements SharedPreferences.OnSharedPreferenceChangeListe
 
     public static boolean isTaokeyModel() {
         return settings._isTaokeyModel();
+    }
+
+    private boolean _isWakeupApp() {
+        return defaultSharedPreferences.getBoolean(KEY_WAKEUP_APP, false);
+    }
+
+    public static boolean isWakeupApp() {
+        return settings._isWakeupApp();
     }
 }

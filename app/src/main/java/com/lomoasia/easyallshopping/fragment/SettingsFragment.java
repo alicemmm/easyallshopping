@@ -79,7 +79,7 @@ public class SettingsFragment extends PreferenceFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.pay_donate)
                 .setCancelable(false)
-                .setMessage("message")
+                .setMessage(R.string.dialog_donate_message)
                 .setNeutralButton(R.string.dialog_none, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -105,8 +105,8 @@ public class SettingsFragment extends PreferenceFragment {
     private void showWechatDonateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false)
-                .setTitle("")
-                .setMessage("")
+                .setTitle(R.string.weixin_tell_title)
+                .setMessage(R.string.weixin_tell_message)
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

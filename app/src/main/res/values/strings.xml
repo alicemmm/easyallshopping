@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">easyallshopping</string>
+    <string name="app_name" translatable="false">UU购物</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -41,6 +41,12 @@
 
     <string name="drawer_menu_other">其他</string>
 
+    <string name="set_other_tao">淘口令</string>
+    <string name="set_other_tao_message">在启动APP时会自动从剪贴板检测淘口令，只可解析标准格式淘口令。</string>
+
+    <string name="set_other_wakeup_app">启用本地APP唤醒</string>
+    <string name="set_other_wakeup_app_message">开启后在唤醒本地APP时会弹窗提示</string>
+
     <string name="taokey_dialog_title">淘口令:</string>
     <string name="taokey_dialog_message">检测到有一个淘口令:%s,是否马上打开？</string>
 
@@ -53,9 +59,11 @@
     <string name="dialog_title_is_more">主页名称不能超过20个字符!</string>
     <string name="dialog_website_is_error">主页网址格式错误，请参考说明!</string>
 
-    <string name="perm_tip">
-        当前应用缺少必要权限。\n请点击"设置"-"权限"-打开所需权限。\n最后点击两次后退按钮，即可返回。
-    </string>
+    <string name="dialog_donate_message">欢迎打赏本APP的作者，您可以在支付宝或微信进行打赏。感谢使用！</string>
+    <string name="weixin_tell_title">向导</string>
+    <string name="weixin_tell_message">受到微信API的限制，您需要在在弹出的界面点击右上角，从相册选取，然后选择第一张二维码捐赠。谢谢。</string>
+
+    <string name="perm_tip">当前应用缺少必要权限。\n请点击"设置"-"权限"-打开所需权限。\n最后点击两次后退按钮，即可返回。</string>
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
     <string name="cancel">取消</string>
 
