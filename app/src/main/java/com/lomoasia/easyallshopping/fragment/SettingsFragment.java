@@ -29,8 +29,6 @@ import com.lomoasia.easyallshopping.donate.WeiXDonate;
 import java.io.File;
 import java.io.InputStream;
 
-import cn.bmob.v3.update.BmobUpdateAgent;
-
 /**
  * Created by asia on 2018/1/18.
  */
@@ -78,7 +76,6 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(Settings.KEY_CHECK_UPDATE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                BmobUpdateAgent.forceUpdate(context);
                 return true;
             }
         });
