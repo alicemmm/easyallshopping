@@ -26,7 +26,7 @@ public class Settings implements SharedPreferences.OnSharedPreferenceChangeListe
     public static final String KEY_CHECK_UPDATE = "check_update";
     public static final String KEY_FEED_BACK = "feedback";
     public static final String KEY_PAY_DONATE = "pay_donate";
-    public static final String KEY_OPEN_SOURCE = "open_source";
+//    public static final String KEY_OPEN_SOURCE = "open_source";
     public static final String KEY_ABOUT_ABOUT = "about_about";
 
     private volatile static Settings settings;

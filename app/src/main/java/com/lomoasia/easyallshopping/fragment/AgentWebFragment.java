@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,13 +95,11 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
     @Override
     public void onViewFirstAppear() {
         super.onViewFirstAppear();
-        Log.e(TAG, "onViewFirstAppear: ");
     }
 
     @Override
     public void onViewAppear() {
         super.onViewAppear();
-        Log.e(TAG, "onViewAppear: ");
     }
 
     public AgentWeb getAgentWeb() {
@@ -143,9 +140,8 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             //  super.onProgressChanged(view, newProgress);
-            Log.e(TAG, "onProgressChanged:" + newProgress + "  view:" + view);
+//            Log.e(TAG, "onProgressChanged:" + newProgress + "  view:" + view);
 
-//            view.loadUrl("JavaScript:function setTop(){document.querySelector('.j6d608a').style.display=\"none\";}setTop();");
         }
     };
 
@@ -166,7 +162,7 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         //
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, String url) {
-            Log.e(TAG, "mWebViewClient shouldOverrideUrlLoading:" + url);
+//            Log.e(TAG, "mWebViewClient shouldOverrideUrlLoading:" + url);
             //intent:// scheme的处理 如果返回false ， 则交给 DefaultWebClient 处理 ， 默认会打开该Activity  ， 如果Activity不存在则跳到应用市场上去.  true 表示拦截
 
 
@@ -175,7 +171,7 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            Log.e(TAG, "url:" + url + " onPageStarted  target:" + getUrl());
+//            Log.e(TAG, "url:" + url + " onPageStarted  target:" + getUrl());
             timer.put(url, System.currentTimeMillis());
 
         }
@@ -187,14 +183,14 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
             if (timer.get(url) != null) {
                 long overTime = System.currentTimeMillis();
                 Long startTime = timer.get(url);
-                Log.e(TAG, "  page url:" + url + "  used time:" + (overTime - startTime));
+//                Log.e(TAG, "  page url:" + url + "  used time:" + (overTime - startTime));
             }
 
         }
 
         /*错误页回调该方法 ， 如果重写了该方法， 上面传入了布局将不会显示 ， 交由开发者实现，注意参数对齐。*/
         public void onMainFrameError(AgentWebUIController agentWebUIController, WebView view, int errorCode, String description, String failingUrl) {
-            Log.i(TAG, "AgentWebFragment onMainFrameError");
+//            Log.i(TAG, "AgentWebFragment onMainFrameError");
             agentWebUIController.onMainFrameError(view, errorCode, description, failingUrl);
 
         }
@@ -203,14 +199,14 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
             super.onReceivedHttpError(view, request, errorResponse);
 
-            Log.e(TAG, "onReceivedHttpError:" + 3 + "  request:" + request + "  errorResponse:" + errorResponse);
+//            Log.e(TAG, "onReceivedHttpError:" + 3 + "  request:" + request + "  errorResponse:" + errorResponse);
         }
 
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
 
-            Log.e(TAG, "onReceivedError:" + errorCode + "  description:" + description + "  errorResponse:" + failingUrl);
+//            Log.e(TAG, "onReceivedError:" + errorCode + "  description:" + description + "  errorResponse:" + failingUrl);
         }
     };
 

@@ -67,6 +67,8 @@
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
     <string name="cancel">取消</string>
 
+    <string name="check_update_none">已是最新版本！</string>
+
     <string name="about_message">当前版本：%s \n功能介绍：APP集成了淘宝、京东、亚马逊的简易购物，您当然可以在设置主页添加任意网站。本应用未添加任何修改原网站功能，网站版权归原网站所有。如有问题，请反馈给开发者。</string>
 
     <string name="test">【未来简史（中文版） 赠未来简史和人类简史伴读有声书  人工智能 尤瓦尔 赫拉利 著  罗辑思维罗振宇推荐】http://www.dwntme.com/h.ZZvEWF4 点击链接，再选择浏览器打开；或复制这条信息￥hQt90lhvbpE￥后打开👉手淘👈</string>

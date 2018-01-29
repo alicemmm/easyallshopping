@@ -84,12 +84,12 @@ public class SettingsFragment extends PreferenceFragment {
                 PgyUpdateManager.register(getActivity(), new UpdateManagerListener() {
                     @Override
                     public void onNoUpdateAvailable() {
-                        Log.e(TAG, "onNoUpdateAvailable: ");
+                        Toast.makeText(context,R.string.check_update_none,Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onUpdateAvailable(String result) {
-                        Log.e(TAG, "onUpdateAvailable: "+result );
+//                        Log.e(TAG, "onUpdateAvailable: "+result );
                     }
                 });
                 return true;
@@ -110,12 +110,12 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
 
-        findPreference(Settings.KEY_OPEN_SOURCE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                return true;
-            }
-        });
+//        findPreference(Settings.KEY_OPEN_SOURCE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                return true;
+//            }
+//        });
 
         findPreference(Settings.KEY_ABOUT_ABOUT).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
