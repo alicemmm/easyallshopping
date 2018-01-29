@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +26,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.SaveCallback;
 import com.just.agentweb.AgentWeb;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.Launcher;
@@ -41,6 +37,7 @@ import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
 import com.lomoasia.easyallshopping.event.SettingEvent;
 import com.lomoasia.easyallshopping.fragment.AgentWebFragment;
 import com.lomoasia.easyallshopping.web.FragmentKeyDown;
+import com.pgyersdk.crash.PgyCrashManager;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +57,7 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PgyCrashManager.register(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

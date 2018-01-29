@@ -11,12 +11,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.activities.BaseActivity;
@@ -26,6 +26,9 @@ import com.lomoasia.easyallshopping.common.Launcher;
 import com.lomoasia.easyallshopping.common.Settings;
 import com.lomoasia.easyallshopping.donate.AliDonate;
 import com.lomoasia.easyallshopping.donate.WeiXDonate;
+import com.pgyersdk.feedback.PgyFeedback;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import java.io.File;
 import java.io.InputStream;
@@ -77,6 +80,18 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(Settings.KEY_CHECK_UPDATE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                PgyUpdateManager.setIsForced(false);
+                PgyUpdateManager.register(getActivity(), new UpdateManagerListener() {
+                    @Override
+                    public void onNoUpdateAvailable() {
+                        Log.e(TAG, "onNoUpdateAvailable: ");
+                    }
+
+                    @Override
+                    public void onUpdateAvailable(String result) {
+                        Log.e(TAG, "onUpdateAvailable: "+result );
+                    }
+                });
                 return true;
             }
         });
@@ -84,8 +99,13 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(Settings.KEY_FEED_BACK).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                FeedbackAgent agent = new FeedbackAgent(context);
-                agent.startDefaultThreadActivity();
+                Activity activity = getActivity();
+                ((SettingActivity) activity).checkPermission(new BaseActivity.CheckPermListener() {
+                    @Override
+                    public void superPermission() {
+                        PgyFeedback.getInstance().showDialog(context);
+                    }
+                }, R.string.ask_again, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 return true;
             }
         });
@@ -172,5 +192,11 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 });
         builder.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        PgyUpdateManager.unregister();
     }
 }

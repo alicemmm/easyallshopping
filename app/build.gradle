@@ -58,34 +58,12 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:multidex:1.0.2'
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-
     implementation 'com.just.agentweb:agentweb:3.1.0'
     implementation 'com.google.code.gson:gson:2.8.2'
-
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
-
-    // LeanCloud 基础包
-    implementation ('cn.leancloud.android:avoscloud-sdk:v4.6.1')
-
-    // 推送与实时聊天需要的包
-//    compile ('cn.leancloud.android:avoscloud-push:v4.6.1@aar'){transitive = true}
-
-    // LeanCloud 统计包
-    compile ('cn.leancloud.android:avoscloud-statistics:v4.6.1')
-
-    // LeanCloud 用户反馈包
-    compile ('cn.leancloud.android:avoscloud-feedback:v4.6.1@aar')
-
-    // avoscloud-sns：LeanCloud 第三方登录包
-//    compile ('cn.leancloud.android:avoscloud-sns:v4.6.1@aar')
-//    compile ('cn.leancloud.android:qq-sdk:1.6.1-leancloud')
-    // 新浪微博 SDK
-//    compile('com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar')
-
-    // LeanCloud 应用内搜索包
-//    compile ('cn.leancloud.android:avoscloud-search:v4.6.1@aar')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation files('libs/pgyer_sdk_2.8.0.jar')
 }
