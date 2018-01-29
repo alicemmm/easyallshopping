@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
+import com.avos.avoscloud.AVOSCloud;
 import com.lomoasia.easyallshopping.common.ClipboardUtil;
 import com.lomoasia.easyallshopping.common.Settings;
 
@@ -22,6 +23,11 @@ public class EasyShopApp extends MultiDexApplication {
         super.onCreate();
         context = getApplicationContext();
         application = this;
+
+        // 初始化参数依次为 this, AppId, AppKey
+        AVOSCloud.initialize(this, "0slgALnK8CiJjMmHBIcEXiOg-gzGzoHsz", "zJCtQvFwPLnLeOfICLM1yf7s");
+        // TODO: 2018/1/29 正式版本remove
+        AVOSCloud.setDebugLogEnabled(true);
 
         ClipboardUtil.init(this);
 

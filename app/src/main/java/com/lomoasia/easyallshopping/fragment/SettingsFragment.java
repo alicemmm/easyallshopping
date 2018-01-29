@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.just.agentweb.AgentWebConfig;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.activities.BaseActivity;
@@ -83,6 +84,8 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(Settings.KEY_FEED_BACK).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                FeedbackAgent agent = new FeedbackAgent(context);
+                agent.startDefaultThreadActivity();
                 return true;
             }
         });
