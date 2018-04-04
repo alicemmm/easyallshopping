@@ -300,7 +300,7 @@ public class MainActivity extends BaseActivity
             }
             return true;
         } else if (id == R.id.menu_share) {
-
+            startActivity(new Intent(MainActivity.this, RxActivity.class));
             return true;
         } else if (id == R.id.menu_exit) {
             finish();

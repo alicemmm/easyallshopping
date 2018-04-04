@@ -63,6 +63,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".activities.RxActivity"/>
+
+        <activity android:name=".activities.KotlinActivity"/>
+
         <meta-data
             android:name="PGYER_APPID"
             android:value="4f4046338bc03a3526327b5e14f19eae"/>
