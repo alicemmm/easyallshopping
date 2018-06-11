@@ -28,15 +28,15 @@ public class UIController extends AgentWebUIControllerImplBase {
     }
 
     @Override
-    public void showMessage(String message, String from) {
-        super.showMessage(message, from);
+    public void onShowMessage(String message, String from) {
+        super.onShowMessage(message,from);
     }
 
     @Override
-    public void showChooser(WebView view, String url, String[] ways, Handler.Callback callback) {
+    public void onSelectItemsPrompt(WebView view, String url, String[] ways, Handler.Callback callback) {
         boolean isWakeupApp = Settings.isWakeupApp();
         if (isWakeupApp) {
-            super.showChooser(view, url, ways, callback);
+            super.onSelectItemsPrompt(view, url, ways, callback);
         } else {
             callback.handleMessage(Message.obtain(null, -1));
         }

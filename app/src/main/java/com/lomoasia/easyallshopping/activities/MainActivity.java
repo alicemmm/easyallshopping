@@ -203,7 +203,7 @@ public class MainActivity extends BaseActivity
                                         if (agentWebFragment != null) {
                                             AgentWeb agentWeb = agentWebFragment.getAgentWeb();
                                             if (agentWeb != null) {
-                                                agentWeb.getLoader().loadUrl(url);
+                                                agentWeb.getUrlLoader().loadUrl(url);
                                             }
                                         }
                                         TaoKeyTools.clearTaokey();
@@ -287,7 +287,7 @@ public class MainActivity extends BaseActivity
             if (agentWebFragment != null) {
                 AgentWeb agentWeb = agentWebFragment.getAgentWeb();
                 if (agentWeb != null) {
-                    agentWeb.getLoader().reload();
+                    agentWeb.getUrlLoader().reload();
                 }
             }
             return true;
@@ -300,7 +300,7 @@ public class MainActivity extends BaseActivity
             }
             return true;
         } else if (id == R.id.menu_share) {
-            startActivity(new Intent(MainActivity.this, RxActivity.class));
+
             return true;
         } else if (id == R.id.menu_exit) {
             finish();
@@ -316,7 +316,7 @@ public class MainActivity extends BaseActivity
             if (agentWeb != null) {
                 WebSiteBean webSiteBean = SPUtils.getCurrentWebsite(context);
                 if (webSiteBean != null && !TextUtils.isEmpty(webSiteBean.getUrl())) {
-                    agentWeb.getLoader().loadUrl(webSiteBean.getUrl());
+                    agentWeb.getUrlLoader().loadUrl(webSiteBean.getUrl());
                 }
             }
         }

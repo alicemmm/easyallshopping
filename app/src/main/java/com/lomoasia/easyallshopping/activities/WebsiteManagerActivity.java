@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jaeger.library.StatusBarUtil;
 import com.lomoasia.easyallshopping.R;
 import com.lomoasia.easyallshopping.common.CommonUtils;
 import com.lomoasia.easyallshopping.common.SPUtils;
@@ -54,6 +55,9 @@ public class WebsiteManagerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_website_manager);
+
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+
         context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
