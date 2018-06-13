@@ -1,15 +1,10 @@
 package com.lomoasia.easyallshopping.activities;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.jaeger.library.StatusBarUtil;
 import com.lomoasia.easyallshopping.R;

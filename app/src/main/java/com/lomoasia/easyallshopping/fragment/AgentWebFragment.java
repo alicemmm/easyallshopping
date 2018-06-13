@@ -30,6 +30,7 @@ import com.just.agentweb.download.DefaultDownloadImpl;
 import com.just.agentweb.download.DownloadListenerAdapter;
 import com.just.agentweb.download.DownloadingService;
 import com.lomoasia.easyallshopping.R;
+import com.lomoasia.easyallshopping.activities.MainActivity;
 import com.lomoasia.easyallshopping.common.SPUtils;
 import com.lomoasia.easyallshopping.common.bean.WebSite;
 import com.lomoasia.easyallshopping.common.bean.WebSiteBean;
@@ -167,12 +168,16 @@ public class AgentWebFragment extends BaseFragment implements FragmentKeyDown {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-//            if (mTitleTextView != null && !TextUtils.isEmpty(title)) {
-//                if (title.length() > 10) {
-//                    title = title.substring(0, 10).concat("...");
-//                }
-//            }
-//            mTitleTextView.setText(title);
+            if (!TextUtils.isEmpty(title)) {
+                if (title.length() > 10) {
+                    title = title.substring(0, 10).concat("...");
+                }
+            }
+
+            Activity activity = getActivity();
+            if (activity instanceof MainActivity) {
+                ((MainActivity) activity).setToolbarTitle(title);
+            }
         }
     };
 

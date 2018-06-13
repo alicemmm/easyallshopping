@@ -66,11 +66,10 @@
 -keepattributes SourceFile,LineNumberTable
 
 #agentweb
--keep class com.just.library.** {
+-keep class com.just.agentweb.** {
     *;
 }
--dontwarn com.just.library.**
--keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }
+-dontwarn com.just.agentweb.**
 
 # okhttp & picasso
 -dontwarn com.squareup.okhttp.**

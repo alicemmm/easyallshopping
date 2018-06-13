@@ -65,7 +65,7 @@ dependencies {
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     implementation 'com.just.agentweb:agentweb:4.0.2'
     implementation 'com.just.agentweb:download:4.0.2' // (可选)
-    implementation 'com.just.agentweb:filechooser:4.0.2'// (可选)
+//    implementation 'com.just.agentweb:filechooser:4.0.2'// (可选)
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 
